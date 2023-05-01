@@ -18,7 +18,13 @@ public class MovingObject : MonoBehaviour
 
     public LayerMask layerMask; // 통과 불가 레이어 설정
 
-    public string currentMapName; 
+    public string currentMapName;
+
+    public string walkSound_1; // 이름으로 접근해서 사운드 이용
+    public string walkSound_2;
+    public string walkSound_3;
+    public string walkSound_4;
+
     //TransferMap에 있는 transferMapName을 저장할 변수
 
 
@@ -37,6 +43,8 @@ public class MovingObject : MonoBehaviour
 
     private BoxCollider2D boxCollider;
 
+    private AudioManager theAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +55,7 @@ public class MovingObject : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             animator = GetComponent<Animator>(); // 컴포넌트를 animator 변수에 불러옴
             boxCollider = GetComponent<BoxCollider2D>();
+            theAudio = FindObjectOfType<AudioManager>();
             instance = this;
         }
         else if (instance != null)
@@ -96,6 +105,26 @@ public class MovingObject : MonoBehaviour
 
             animator.SetBool("Walking", true); // Bool 값을 전달해서 animation 전이
 
+            //AUDIO
+            int temp = Random.Range(1, 4);
+            switch (temp)
+            {
+                case 1:
+                    theAudio.Play(walkSound_1);
+                    break;
+
+                case 2:
+                    theAudio.Play(walkSound_2);
+                    break;
+
+                case 3:
+                    theAudio.Play(walkSound_3);
+                    break;
+
+                case 4:
+                    theAudio.Play(walkSound_4);
+                    break;
+            }
 
             //Add Value
             while (currentWalkCount < walkCount)
